@@ -110,7 +110,17 @@ public final class BestInsertionConcurrent extends AbstractInsertionStrategy{
 		List<Batch> batches = distributeRoutes(vehicleRoutes,nuOfBatches);
 		for(final Job unassignedJob : unassignedJobList){
 			Insertion bestInsertion = null;
+			boolean boolRoute = false;
 			double bestInsertionCost = Double.MAX_VALUE;
+			VehicleRoute newRoute = VehicleRoute.emptyRoute();
+			InsertionData newIData = bestInsertionCostCalculator.getInsertionData(newRoute, unassignedJob, NO_NEW_VEHICLE_YET, NO_NEW_DEPARTURE_TIME_YET, NO_NEW_DRIVER_YET, bestInsertionCost);
+			if(!(newIData instanceof NoInsertionFound)){
+				bestInsertion = new Insertion(newRoute,newIData);
+				vehicleRoutes.add(newRoute);
+				batches.get(random.nextInt(batches.size())).routes.add(newRoute);
+				boolRoute = true;
+			}
+			if(!boolRoute){
 			for(final Batch batch : batches){
 				completionService.submit(new Callable<Insertion>() {
 
@@ -139,12 +149,6 @@ public final class BestInsertionConcurrent extends AbstractInsertionStrategy{
 				logger.error("Exception", e);
 				System.exit(1);
 			}
-			VehicleRoute newRoute = VehicleRoute.emptyRoute();
-			InsertionData newIData = bestInsertionCostCalculator.getInsertionData(newRoute, unassignedJob, NO_NEW_VEHICLE_YET, NO_NEW_DEPARTURE_TIME_YET, NO_NEW_DRIVER_YET, bestInsertionCost);
-			if(newIData.getInsertionCost() < bestInsertionCost){
-				bestInsertion = new Insertion(newRoute,newIData);
-				vehicleRoutes.add(newRoute);
-				batches.get(random.nextInt(batches.size())).routes.add(newRoute);
 			}
 			if(bestInsertion == null) badJobs.add(unassignedJob);
 			else insertJob(unassignedJob, bestInsertion.getInsertionData(), bestInsertion.getRoute());

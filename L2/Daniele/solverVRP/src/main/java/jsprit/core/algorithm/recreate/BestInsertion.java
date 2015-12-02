@@ -71,7 +71,18 @@ public final class BestInsertion extends AbstractInsertionStrategy{
 		Collections.shuffle(unassignedJobList, random);
 		for(Job unassignedJob : unassignedJobList){			
 			Insertion bestInsertion = null;
+			boolean boolRoute = false;
 			double bestInsertionCost = Double.MAX_VALUE;
+            VehicleRoute newRoute = VehicleRoute.emptyRoute();
+            InsertionData newIData = bestInsertionCostCalculator.getInsertionData(newRoute, unassignedJob, NO_NEW_VEHICLE_YET, NO_NEW_DEPARTURE_TIME_YET, NO_NEW_DRIVER_YET, bestInsertionCost);
+            if(!(newIData instanceof NoInsertionFound)){
+                if(newIData.getInsertionCost() < bestInsertionCost + noiseMaker.makeNoise()){
+                    bestInsertion = new Insertion(newRoute,newIData);
+                    vehicleRoutes.add(newRoute);
+                    boolRoute = true;
+                }
+            }
+            if(!boolRoute){
 			for(VehicleRoute vehicleRoute : vehicleRoutes){
 				InsertionData iData = bestInsertionCostCalculator.getInsertionData(vehicleRoute, unassignedJob, NO_NEW_VEHICLE_YET, NO_NEW_DEPARTURE_TIME_YET, NO_NEW_DRIVER_YET, bestInsertionCost); 
 				if(iData instanceof NoInsertionFound) {
@@ -82,13 +93,6 @@ public final class BestInsertion extends AbstractInsertionStrategy{
 					bestInsertionCost = iData.getInsertionCost();
 				}
 			}
-            VehicleRoute newRoute = VehicleRoute.emptyRoute();
-            InsertionData newIData = bestInsertionCostCalculator.getInsertionData(newRoute, unassignedJob, NO_NEW_VEHICLE_YET, NO_NEW_DEPARTURE_TIME_YET, NO_NEW_DRIVER_YET, bestInsertionCost);
-            if(!(newIData instanceof NoInsertionFound)){
-                if(newIData.getInsertionCost() < bestInsertionCost + noiseMaker.makeNoise()){
-                    bestInsertion = new Insertion(newRoute,newIData);
-                    vehicleRoutes.add(newRoute);
-                }
             }
             if(bestInsertion == null) badJobs.add(unassignedJob);
             else insertJob(unassignedJob, bestInsertion.getInsertionData(), bestInsertion.getRoute());

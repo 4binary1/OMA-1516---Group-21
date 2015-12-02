@@ -16,6 +16,7 @@ import jsprit.core.algorithm.io.VehicleRoutingAlgorithms;
 import jsprit.core.algorithm.selector.SelectBest;
 import jsprit.core.algorithm.termination.TimeTermination;
 import jsprit.core.problem.VehicleRoutingProblem;
+import jsprit.core.problem.VehicleRoutingProblem.FleetSize;
 import jsprit.core.problem.solution.VehicleRoutingProblemSolution;
 import jsprit.core.reporting.SolutionPrinter;
 import jsprit.instance.reader.SolomonReader;
@@ -45,6 +46,7 @@ public class Main {
 					(int)options.get(CONSTANTS.THREADS), (String)options.get(CONSTANTS.CONFIG));
 			setTimeLimit(vra, (long)options.get(CONSTANTS.TIME));
 			
+			
 			// Solve the problem
 			Collection<VehicleRoutingProblemSolution> solutions = vra.searchSolutions();
 			// Extract the best solution
@@ -55,7 +57,7 @@ public class Main {
 			// Print solution on the screen (optional)
 			//SolutionPrinter.print(vrp, solution, SolutionPrinter.Print.VERBOSE);
 			// Draw solution on the screen (optional)
-			//new GraphStreamViewer(vrp, solution).labelWith(Label.ID).setRenderDelay(10).display();
+			new GraphStreamViewer(vrp, solution).labelWith(Label.ID).setRenderDelay(10).display();
 		}
 	}
 	

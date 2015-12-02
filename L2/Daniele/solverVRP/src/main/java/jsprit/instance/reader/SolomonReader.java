@@ -22,6 +22,7 @@ import jsprit.core.problem.VehicleRoutingProblem;
 import jsprit.core.problem.VehicleRoutingProblem.FleetSize;
 import jsprit.core.problem.job.Service;
 import jsprit.core.problem.solution.route.activity.TimeWindow;
+import jsprit.core.problem.vehicle.Vehicle;
 import jsprit.core.problem.vehicle.VehicleImpl;
 import jsprit.core.problem.vehicle.VehicleTypeImpl;
 import jsprit.core.util.Coordinate;
@@ -76,9 +77,10 @@ public class SolomonReader {
 	}
 	
 	public void read(String solomonFile){
-		vrpBuilder.setFleetSize(FleetSize.INFINITE);
+		vrpBuilder.setFleetSize(FleetSize.FINITE);
 		BufferedReader reader = getReader(solomonFile);
 		int vehicleCapacity = 0;
+		int fleetSize = 0;
 		
 		int counter = 0;
 		String line;
@@ -89,6 +91,7 @@ public class SolomonReader {
 			counter++;
 			if(counter == 5){
 				vehicleCapacity = Integer.parseInt(tokens[1]);
+				fleetSize = Integer.parseInt(tokens[0]);
 				continue;
 			}
 			if(counter > 9){
@@ -103,11 +106,12 @@ public class SolomonReader {
 					VehicleTypeImpl.Builder typeBuilder = VehicleTypeImpl.Builder.newInstance("solomonType").addCapacityDimension(0, vehicleCapacity);
 					typeBuilder.setCostPerDistance(1.0*variableCostProjectionFactor).setFixedCost(fixedCostPerVehicle);
 					VehicleTypeImpl vehicleType = typeBuilder.build();
-
-					VehicleImpl vehicle = VehicleImpl.Builder.newInstance("solomonVehicle").setEarliestStart(start).setLatestArrival(end)
+					for(int i = 0; i < fleetSize; i++){
+						VehicleImpl vehicle = VehicleImpl.Builder.newInstance("solomonVehicle" + Integer.toString(i)).setEarliestStart(start).setLatestArrival(end)
 							.setStartLocation(Location.Builder.newInstance().setId(customerId)
 									.setCoordinate(coord).build()).setType(vehicleType).build();
-					vrpBuilder.addVehicle(vehicle);
+						vrpBuilder.addVehicle(vehicle);
+					}
 					
 				}
 				else{

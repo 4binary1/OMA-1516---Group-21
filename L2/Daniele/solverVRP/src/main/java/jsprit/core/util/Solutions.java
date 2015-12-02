@@ -25,9 +25,16 @@ public class Solutions {
 	
 	public static VehicleRoutingProblemSolution bestOf(Collection<VehicleRoutingProblemSolution> solutions){
 		VehicleRoutingProblemSolution best = null;
+		int numRoutes = 0;
 		for(VehicleRoutingProblemSolution s : solutions){
-			if(best == null) best = s;
-			else if(s.getCost() < best.getCost()) best = s;
+			if(best == null){
+				best = s;
+				numRoutes = s.getRoutes().size();
+			}
+			else if(s.getRoutes().size() > numRoutes && s.getCost() < best.getCost()){
+				best = s;
+				numRoutes = s.getRoutes().size();
+			}
 		}
 		return best;
 	}

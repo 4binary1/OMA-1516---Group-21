@@ -12,14 +12,14 @@ public class OROoptions {
 
 	private final String INSTANCE_ARG 	= "i";
 	private final String INSTANCE_TXT 	= "Instance file (Solomon Format)";
-	private final String INSTANCE_FILE	= "C101.txt";
+	private final String INSTANCE_FILE	= "RC101.txt";
 	
 	private final String CONFIG_ALG_C	= "input/algorithmConfig.xml";
 	private final String SOL_PATH_C		= "output/solutions.csv";
 	private final String HTML_PATH_C	= "output/solution";
 	private final long TIME_C			= 120*1000;
-	private final int THREADS_C			= 2;
-	private final int REPETITION_C		= 10;
+	private final int THREADS_C			= 1;
+	private final int REPETITION_C		= 1;
 	
 	// Command line help
 	private String CMD_MSG = "Available commands are:\n" +
