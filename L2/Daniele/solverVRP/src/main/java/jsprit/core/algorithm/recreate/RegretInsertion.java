@@ -260,44 +260,44 @@ public class RegretInsertion extends AbstractInsertionStrategy {
         return bestScoredJob;
     }
 
+    /*
+     * Modificato
+     * 
+     * Come nella BestInsetrion verifico prima se è possibile inserire una nuova route, e se è
+     * così imponila come bestSolution
+     */
     static ScoredJob getScoredJob(Collection<VehicleRoute> routes, Job unassignedJob, JobInsertionCostsCalculator insertionCostsCalculator, ScoringFunction scoringFunction) {
         InsertionData best = null;
         InsertionData secondBest = null;
         VehicleRoute bestRoute = null;
+        boolean bestNewRoute = false;
 
         double benchmark = Double.MAX_VALUE;
+        VehicleRoute emptyRoute = VehicleRoute.emptyRoute();
+        InsertionData iData = insertionCostsCalculator.getInsertionData(emptyRoute, unassignedJob, NO_NEW_VEHICLE_YET, NO_NEW_DEPARTURE_TIME_YET, NO_NEW_DRIVER_YET, benchmark);
+        if (!(iData instanceof InsertionData.NoInsertionFound)) {// Verifica se è possibile inserire nuova route
+            best = iData;
+            bestRoute = emptyRoute;
+            bestNewRoute = true;
+        }
         for (VehicleRoute route : routes) {
             if (secondBest != null) {
                 benchmark = secondBest.getInsertionCost();
             }
-            InsertionData iData = insertionCostsCalculator.getInsertionData(route, unassignedJob, NO_NEW_VEHICLE_YET, NO_NEW_DEPARTURE_TIME_YET, NO_NEW_DRIVER_YET, benchmark);
-            if (iData instanceof InsertionData.NoInsertionFound) continue;
-            if (best == null) {
-                best = iData;
+            InsertionData iData2 = insertionCostsCalculator.getInsertionData(route, unassignedJob, NO_NEW_VEHICLE_YET, NO_NEW_DEPARTURE_TIME_YET, NO_NEW_DRIVER_YET, benchmark);
+            if (iData2 instanceof InsertionData.NoInsertionFound) continue;
+            if (best == null && !bestNewRoute) {//Solo se non c'è nuova route
+                best = iData2;
                 bestRoute = route;
-            } else if (iData.getInsertionCost() < best.getInsertionCost()) {
+            } else if (iData2.getInsertionCost() < best.getInsertionCost() && !bestNewRoute) {//Solo se non c'è nuova route
                 secondBest = best;
-                best = iData;
+                best = iData2;
                 bestRoute = route;
-            } else if (secondBest == null || (iData.getInsertionCost() < secondBest.getInsertionCost())) {
-                secondBest = iData;
+            } else if (secondBest == null || (iData2.getInsertionCost() < secondBest.getInsertionCost())) {
+                secondBest = iData2;
             }
         }
 
-        VehicleRoute emptyRoute = VehicleRoute.emptyRoute();
-        InsertionData iData = insertionCostsCalculator.getInsertionData(emptyRoute, unassignedJob, NO_NEW_VEHICLE_YET, NO_NEW_DEPARTURE_TIME_YET, NO_NEW_DRIVER_YET, benchmark);
-        if (!(iData instanceof InsertionData.NoInsertionFound)) {
-            if (best == null) {
-                best = iData;
-                bestRoute = emptyRoute;
-            } else if (iData.getInsertionCost() < best.getInsertionCost()) {
-                secondBest = best;
-                best = iData;
-                bestRoute = emptyRoute;
-            } else if (secondBest == null || (iData.getInsertionCost() < secondBest.getInsertionCost())) {
-                secondBest = iData;
-            }
-        }
         if(best == null){
             return new RegretInsertion.BadJob(unassignedJob);
         }
