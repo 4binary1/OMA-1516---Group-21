@@ -6,7 +6,7 @@
 	<iterations>1024</iterations>
 	
 	<construction>
-		<insertion name="bestInsertion">
+		<insertion name="regretInsertion">
 			<considerFixedCosts weight="1.0">true</considerFixedCosts>
 		</insertion>
 	</construction>
@@ -17,30 +17,19 @@
 
 			<searchStrategy name="randomRuinAndRecreate">
 				<selector name="selectBest"/>
-	  			<acceptor name="acceptNewRemoveWorst"/> 
+	  			<acceptor name="schrimpfAcceptance">
+					<alpha>0.3</alpha>
+					<initialThreshold>50</initialThreshold>
+				</acceptor>
 				<modules>
 					<module name="ruin_and_recreate">
 						<ruin name="randomRuin">
 							<share>0.5</share>
 						</ruin>
-						<insertion name="bestInsertion"/>
+						<insertion name="regretInsertion"/>
 					</module>
 				</modules>
-				<probability>0.5</probability>
-			</searchStrategy>
-			
-			<searchStrategy name="radialRuinAndRecreate">
-				<selector name="selectBest"/>
-				<acceptor name="acceptNewRemoveWorst"/> 
-				<modules>
-					<module name="ruin_and_recreate">
-						<ruin name="radialRuin">
-							<share>0.3</share>
-						</ruin>
-						<insertion name="bestInsertion"/>
-					</module>
-				</modules>
-				<probability>0.5</probability>
+				<probability>1</probability>
 			</searchStrategy>
 		</searchStrategies>		
 	</strategy>

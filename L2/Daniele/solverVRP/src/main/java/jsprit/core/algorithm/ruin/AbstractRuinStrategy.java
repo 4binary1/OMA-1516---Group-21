@@ -112,8 +112,13 @@ public abstract class AbstractRuinStrategy implements RuinStrategy{
         return !vrp.getJobs().containsKey(job.getId()); //for initial jobs (being not contained in problem
     }
 
+    /*
+     * Aggiunta verifica per evitare distruzione totale di route
+     * Se il job da rimuovere è l'ultimo rimasto nella route, allora non rimuoverlo
+     */
     protected boolean removeJob(Job job, VehicleRoute route) {
         if(jobIsInitial(job)) return false;
+        if(route.getTourActivities().jobSize() == 1) return false; //Verifica numero job nella route
         boolean removed = route.getTourActivities().removeJob(job);
         if (removed) {
             logger.trace("ruin: {}", job.getId());
