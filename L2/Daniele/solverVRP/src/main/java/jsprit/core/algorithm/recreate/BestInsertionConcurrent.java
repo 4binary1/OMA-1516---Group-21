@@ -102,7 +102,16 @@ public final class BestInsertionConcurrent extends AbstractInsertionStrategy{
 		return "[name=bestInsertion]";
 	}
 
+	
 	@Override
+	/* Modificato
+	 * Verifica se è possibile inserire una nuova route; se è possibile, inseriscila e termina
+	 * Solo se non è possibile creare nuove route (ovvero tutti i veicoli sono utilizzati)
+	 * inserisci il job in una route già esistente
+	 * 
+	 * (non-Javadoc)
+	 * @see jsprit.core.algorithm.recreate.AbstractInsertionStrategy#insertUnassignedJobs(java.util.Collection, java.util.Collection)
+	 */
 	public Collection<Job> insertUnassignedJobs(Collection<VehicleRoute> vehicleRoutes, Collection<Job> unassignedJobs) {
 		List<Job> badJobs = new ArrayList<Job>(unassignedJobs.size());
 		List<Job> unassignedJobList = new ArrayList<Job>(unassignedJobs);
@@ -110,17 +119,17 @@ public final class BestInsertionConcurrent extends AbstractInsertionStrategy{
 		List<Batch> batches = distributeRoutes(vehicleRoutes,nuOfBatches);
 		for(final Job unassignedJob : unassignedJobList){
 			Insertion bestInsertion = null;
-			boolean boolRoute = false;
+			boolean boolRoute = false; //Verifica nuova route creata
 			double bestInsertionCost = Double.MAX_VALUE;
 			VehicleRoute newRoute = VehicleRoute.emptyRoute();
 			InsertionData newIData = bestInsertionCostCalculator.getInsertionData(newRoute, unassignedJob, NO_NEW_VEHICLE_YET, NO_NEW_DEPARTURE_TIME_YET, NO_NEW_DRIVER_YET, bestInsertionCost);
-			if(!(newIData instanceof NoInsertionFound)){
+			if(!(newIData instanceof NoInsertionFound)){ // Verifica se è possibile inserire una nuova route
 				bestInsertion = new Insertion(newRoute,newIData);
 				vehicleRoutes.add(newRoute);
 				batches.get(random.nextInt(batches.size())).routes.add(newRoute);
-				boolRoute = true;
+				boolRoute = true; //Se è possibile inserisci la nuova route e segnala
 			}
-			if(!boolRoute){
+			if(!boolRoute){ //Eseguito solo se non è possibile creare una nuova route
 			for(final Batch batch : batches){
 				completionService.submit(new Callable<Insertion>() {
 

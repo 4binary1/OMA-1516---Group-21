@@ -40,17 +40,14 @@ public class SelectBest implements SolutionSelector{
 	public VehicleRoutingProblemSolution selectSolution(Collection<VehicleRoutingProblemSolution> solutions) {
 		double minCost = Double.MAX_VALUE;
 		VehicleRoutingProblemSolution bestSolution = null;
-		int numRoutes = 0;
 		for(VehicleRoutingProblemSolution sol : solutions){
 			if(bestSolution == null){
 				bestSolution = sol;
 				minCost = sol.getCost();
-				numRoutes = sol.getRoutes().size();
 			}
-			else if(sol.getRoutes().size() > numRoutes && sol.getCost() < minCost){
+			else if(sol.getCost() < minCost){
 				bestSolution = sol;
 				minCost = sol.getCost();
-				numRoutes = sol.getRoutes().size();
 			}
 		}
 		return bestSolution;

@@ -12,7 +12,7 @@ public class OROoptions {
 
 	private final String INSTANCE_ARG 	= "i";
 	private final String INSTANCE_TXT 	= "Instance file (Solomon Format)";
-	private final String INSTANCE_FILE	= "RC101.txt";
+	private final String INSTANCE_FILE	= "C101.txt";
 	
 	private final String CONFIG_ALG_C	= "input/algorithmConfig.xml";
 	private final String SOL_PATH_C		= "output/solutions.csv";

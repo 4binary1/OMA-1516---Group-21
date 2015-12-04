@@ -77,10 +77,10 @@ public class SolomonReader {
 	}
 	
 	public void read(String solomonFile){
-		vrpBuilder.setFleetSize(FleetSize.FINITE);
+		vrpBuilder.setFleetSize(FleetSize.FINITE); // Imposto fleet size come finita
 		BufferedReader reader = getReader(solomonFile);
 		int vehicleCapacity = 0;
-		int fleetSize = 0;
+		int fleetSize = 0; //Dimensione flotta
 		
 		int counter = 0;
 		String line;
@@ -91,7 +91,7 @@ public class SolomonReader {
 			counter++;
 			if(counter == 5){
 				vehicleCapacity = Integer.parseInt(tokens[1]);
-				fleetSize = Integer.parseInt(tokens[0]);
+				fleetSize = Integer.parseInt(tokens[0]); //Ottenimento dimensione flotta
 				continue;
 			}
 			if(counter > 9){
@@ -106,7 +106,7 @@ public class SolomonReader {
 					VehicleTypeImpl.Builder typeBuilder = VehicleTypeImpl.Builder.newInstance("solomonType").addCapacityDimension(0, vehicleCapacity);
 					typeBuilder.setCostPerDistance(1.0*variableCostProjectionFactor).setFixedCost(fixedCostPerVehicle);
 					VehicleTypeImpl vehicleType = typeBuilder.build();
-					for(int i = 0; i < fleetSize; i++){
+					for(int i = 0; i < fleetSize; i++){ //Creazione numero appropriato di veicoli
 						VehicleImpl vehicle = VehicleImpl.Builder.newInstance("solomonVehicle" + Integer.toString(i)).setEarliestStart(start).setLatestArrival(end)
 							.setStartLocation(Location.Builder.newInstance().setId(customerId)
 									.setCoordinate(coord).build()).setType(vehicleType).build();
