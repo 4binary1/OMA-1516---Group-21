@@ -26,7 +26,7 @@
 						<ruin name="randomRuin">
 							<share>0.5</share>
 						</ruin>
-						<insertion name="regretInsertion"/>
+						<insertion name="bestInsertion"/>
 					</module>
 				</modules>
 				<probability>1</probability>

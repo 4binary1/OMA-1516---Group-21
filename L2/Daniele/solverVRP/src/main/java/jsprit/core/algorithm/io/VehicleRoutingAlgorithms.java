@@ -41,6 +41,7 @@ import jsprit.core.algorithm.termination.TimeTermination;
 import jsprit.core.algorithm.termination.VariationCoefficientTermination;
 import jsprit.core.problem.VehicleRoutingProblem;
 import jsprit.core.problem.VehicleRoutingProblem.FleetSize;
+import jsprit.core.problem.constraint.BalancerSoftConst;
 import jsprit.core.problem.constraint.ConstraintManager;
 import jsprit.core.problem.solution.SolutionCostCalculator;
 import jsprit.core.problem.solution.VehicleRoutingProblemSolution;
@@ -479,6 +480,9 @@ public class VehicleRoutingAlgorithms {
 		constraintManager.addTimeWindowConstraint();
 		constraintManager.addLoadConstraint();
         constraintManager.addSkillsConstraint();
+        
+        // Aggiunta del bilanciamento dei percorsi
+        constraintManager.addConstraint(new BalancerSoftConst(vrp));
 		
 		return readAndCreateAlgorithm(vrp, config, nuOfThreads, null, stateManager, constraintManager, true);	
 	}

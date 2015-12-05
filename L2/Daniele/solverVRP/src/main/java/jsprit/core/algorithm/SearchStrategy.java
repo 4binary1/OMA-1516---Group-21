@@ -22,6 +22,8 @@ import jsprit.core.algorithm.selector.SolutionSelector;
 import jsprit.core.problem.VehicleRoutingProblem;
 import jsprit.core.problem.solution.SolutionCostCalculator;
 import jsprit.core.problem.solution.VehicleRoutingProblemSolution;
+import jsprit.core.problem.solution.route.VehicleRoute;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
