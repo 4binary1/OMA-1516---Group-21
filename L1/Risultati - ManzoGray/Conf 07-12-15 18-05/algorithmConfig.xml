@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+
+<algorithm xmlns="http://www.w3schools.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3schools.com algorithm_schema.xsd">
+
+	<iterations>1024</iterations>
+
+	<construction>
+		<insertion name="regretInsertion">
+			<considerFixedCosts weight="1.0">true
+			</considerFixedCosts>
+		</insertion>
+	</construction>
+
+	<strategy>
+		<memory>1</memory>
+		<searchStrategies>
+			<searchStrategy name="randomRuinAndRecreate">
+				<selector name="selectRandomly" />
+				<acceptor name="schrimpfAcceptance">
+					<alpha>0.1</alpha>
+					<initialThreshold>50</initialThreshold>
+				</acceptor>
+				<modules>
+					<module name="ruin_and_recreate">
+
+						<ruin name="randomRuin">
+							<share>0.3</share>
+						</ruin>
+						<insertion name="regretInsertion" />
+					</module>
+				</modules>
+				<probability>0.2</probability>
+			</searchStrategy>
+
+			<searchStrategy name="radialRuinAndRecreate">
+				<selector name="selectRandomly" />
+				<acceptor name="schrimpfAcceptance">
+					<alpha>0.4</alpha>
+					<initialThreshold>150</initialThreshold>
+				</acceptor>
+				<modules>
+					<module name="ruin_and_recreate">
+						<ruin name="radialRuin">
+							<share>0.3</share>
+						</ruin>
+						<insertion name="regretInsertion" />
+					</module>
+				</modules>
+				<probability>0.2</probability>
+			</searchStrategy>
+		</searchStrategies>
+	</strategy>
+
+
+</algorithm>

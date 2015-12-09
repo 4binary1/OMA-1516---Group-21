@@ -1,0 +1,2 @@
+Sulle C tutto bene, tranne C204 (che comunque è meglio del risultato jsprit del professore) e C205 (quello invece è più alto)
+Sulle RC oscilla sui valori di jsprit del prof.

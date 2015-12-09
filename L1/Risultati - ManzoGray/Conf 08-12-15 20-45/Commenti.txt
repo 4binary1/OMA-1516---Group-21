@@ -1,0 +1,1 @@
+Configurazione di Michele con memory == 3 invece di 1. C104 peggiore, C204 invece molto meglio del valore di jsprit del professore, con distacco dello 0.4233%. Oscillazioni più o meno grosse con gli RC.

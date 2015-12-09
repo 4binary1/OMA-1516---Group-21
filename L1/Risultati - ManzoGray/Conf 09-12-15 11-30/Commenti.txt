@@ -1,0 +1,1 @@
+Le C vanno bene, tranne C104 che è un po' piu alto e C204 che è molto più basso. Le RC presentano oscillazioni positive e negative di piccole entità sul valore ottimo OPPURE grandi discostamenti in negativo, soprattutto le ultime (molto più alto).
