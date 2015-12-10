@@ -1,0 +1,1 @@
+Bene sulle C, tranne C203 e C204. Le RC sul minimo oscillano tra lo 0 e il 4%, mentre sulla media la percentuale aumenta parecchio, non scende sotto il 2%.
