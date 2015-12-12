@@ -113,6 +113,8 @@ public abstract class AbstractRuinStrategy implements RuinStrategy{
     }
 
     /*
+     * Modificato
+     * 
      * Aggiunta verifica per evitare distruzione totale di route
      * Se il job da rimuovere è l'ultimo rimasto nella route, allora non rimuoverlo
      */

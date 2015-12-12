@@ -6,7 +6,7 @@
 	<iterations>1024</iterations>
 	
 	<construction>
-		<insertion name="regretInsertion">
+		<insertion name="bestInsertion">
 			<considerFixedCosts weight="1.0">true</considerFixedCosts>
 		</insertion>
 	</construction>
@@ -26,7 +26,7 @@
 						<ruin name="randomRuin">
 							<share>0.5</share>
 						</ruin>
-						<insertion name="bestInsertion"/>
+						<insertion name="regretInsertion"/>
 					</module>
 				</modules>
 				<probability>1</probability>
