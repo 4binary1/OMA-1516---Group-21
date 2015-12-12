@@ -6,7 +6,7 @@ import jsprit.core.problem.misc.JobInsertionContext;
 /**
  * Constraint soft per effettuare il bilanciamento del carico per ogni route
  * 
- * Ad ogni inserimento viene calcolata un apenalità o una ricompensa per quell'inserimento, facendo la differenza tra il numero di
+ * Ad ogni inserimento viene calcolata una penalità o una ricompensa per quell'inserimento, facendo la differenza tra il numero di
  * job nella route attuale e il numero di job ideale calcolato come n° di job su n° di veicoli
  * 
  * 
@@ -26,7 +26,8 @@ public class BalancerSoftConst implements SoftRouteConstraint {
 
 	@Override
 	public double getCosts(JobInsertionContext insertionContext) {
-		return (insertionContext.getRoute().getActivities().size() - meanValue) * 10;
+		double value = (insertionContext.getRoute().getActivities().size() - meanValue);
+		return value * 10;
 	}
 
 }
