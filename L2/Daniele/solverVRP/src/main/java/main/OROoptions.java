@@ -24,8 +24,8 @@ public class OROoptions {
 	private final String SOL_PATH_C		= "output/solutions.csv";
 	private final String HTML_PATH_C	= "output/solution";
 	private final long TIME_C			= 120*1000;
-	private final int THREADS_C			= 1;
-	private final int REPETITION_C		= 1;
+	private final int THREADS_C			= 2;
+	private final int REPETITION_C		= 10;
 	
 	// Command line help
 	//+
