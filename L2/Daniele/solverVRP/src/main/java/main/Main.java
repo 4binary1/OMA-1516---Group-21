@@ -39,7 +39,11 @@ public class Main {
 			// Create a vrp problem builder
 			VehicleRoutingProblem.Builder vrpBuilder = VehicleRoutingProblem.Builder.newInstance();
 			// A solomonReader reads solomon-instance files, and stores the required information in the builder.
-			new SolomonReader(vrpBuilder).read("input/" + options.get(PARAMS.INSTANCE));
+			//+
+			int fleet = Integer.parseInt(options.get(PARAMS.FLEET));
+			
+			new SolomonReader(vrpBuilder).read("input/" + options.get(PARAMS.INSTANCE), fleet);
+			//-
 			VehicleRoutingProblem vrp = vrpBuilder.build();
 			// Create the instace and solve the problem
 			VehicleRoutingAlgorithm vra = VehicleRoutingAlgorithms.readAndCreateAlgorithm(vrp, 

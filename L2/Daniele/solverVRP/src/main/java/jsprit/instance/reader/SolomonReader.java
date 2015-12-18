@@ -76,6 +76,56 @@ public class SolomonReader {
 		this.fixedCostPerVehicle=fixedCostPerVehicle;
 	}
 	
+	public void read(String solomonFile, int fleet){
+		vrpBuilder.setFleetSize(FleetSize.FINITE); // Imposto fleet size come finita
+		BufferedReader reader = getReader(solomonFile);
+		int vehicleCapacity = 0;
+		int fleetSize = fleet; //Dimensione flotta
+		
+		int counter = 0;
+		String line;
+		while((line = readLine(reader)) != null){
+			line = line.replace("\r", "");
+			line = line.trim();
+			String[] tokens = line.split(" +");
+			counter++;
+			if(counter == 5){
+				vehicleCapacity = Integer.parseInt(tokens[1]);
+				if(fleetSize == 0)
+					fleetSize = Integer.parseInt(tokens[0]); //Ottenimento dimensione flotta
+				continue;
+			}
+			if(counter > 9){
+				if(tokens.length < 7) continue;
+                Coordinate coord = makeCoord(tokens[1],tokens[2]);
+				String customerId = tokens[0];
+				int demand = Integer.parseInt(tokens[3]);
+				double start = Double.parseDouble(tokens[4])*timeProjectionFactor;
+				double end = Double.parseDouble(tokens[5])*timeProjectionFactor;
+				double serviceTime = Double.parseDouble(tokens[6])*timeProjectionFactor;
+				if(counter == 10){
+					VehicleTypeImpl.Builder typeBuilder = VehicleTypeImpl.Builder.newInstance("solomonType").addCapacityDimension(0, vehicleCapacity);
+					typeBuilder.setCostPerDistance(1.0*variableCostProjectionFactor).setFixedCost(fixedCostPerVehicle);
+					VehicleTypeImpl vehicleType = typeBuilder.build();
+					for(int i = 0; i < fleetSize; i++){ //Creazione numero appropriato di veicoli
+						VehicleImpl vehicle = VehicleImpl.Builder.newInstance("solomonVehicle" + Integer.toString(i)).setEarliestStart(start).setLatestArrival(end)
+							.setStartLocation(Location.Builder.newInstance().setId(customerId)
+									.setCoordinate(coord).build()).setType(vehicleType).build();
+						vrpBuilder.addVehicle(vehicle);
+					}
+					
+				}
+				else{
+					Service service = Service.Builder.newInstance(customerId).addSizeDimension(0, demand)
+							.setLocation(Location.Builder.newInstance().setCoordinate(coord).setId(customerId).build()).setServiceTime(serviceTime)
+							.setTimeWindow(TimeWindow.newInstance(start, end)).build();
+					vrpBuilder.addJob(service);
+				}
+			}
+		}
+		close(reader);
+	}
+	
 	public void read(String solomonFile){
 		vrpBuilder.setFleetSize(FleetSize.FINITE); // Imposto fleet size come finita
 		BufferedReader reader = getReader(solomonFile);

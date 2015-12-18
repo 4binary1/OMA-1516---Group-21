@@ -7,12 +7,18 @@ import java.util.HashMap;
  * 
  */
 public class OROoptions {
-	public enum PARAMS{	INSTANCE; }
+	public enum PARAMS{	INSTANCE, FLEET; }
 	public enum CONSTANTS{ CONFIG, THREADS, HTML, OUTPUT, TIME, REPETITION; }
 
 	private final String INSTANCE_ARG 	= "i";
 	private final String INSTANCE_TXT 	= "Instance file (Solomon Format)";
 	private final String INSTANCE_FILE	= "C101.txt";
+	
+	//+
+	private final String FLEET_ARG		= "f";
+	private final String FLEET_TXT		= "Number of vehicles";
+	private final String FLEET_VALUE	= "0";
+	//-
 	
 	private final String CONFIG_ALG_C	= "input/algorithmConfig.xml";
 	private final String SOL_PATH_C		= "output/solutions.csv";
@@ -22,8 +28,11 @@ public class OROoptions {
 	private final int REPETITION_C		= 1;
 	
 	// Command line help
+	//+
 	private String CMD_MSG = "Available commands are:\n" +
-		"-" + INSTANCE_ARG 	+": "+ INSTANCE_TXT + "\n";
+		"-" + INSTANCE_ARG 	+": "+ INSTANCE_TXT + "\n" +
+		"-" + FLEET_ARG + ": "+ FLEET_TXT + "\n";
+	//-
 	
 	HashMap<String, String> options;
 	EnumMap<PARAMS, String> references;
@@ -32,9 +41,15 @@ public class OROoptions {
 	public OROoptions(String[] args) {
 		options = new HashMap<String, String>();
 		options.put(INSTANCE_ARG, INSTANCE_FILE);
-				
+		//+
+		options.put(FLEET_ARG, FLEET_VALUE);
+		//-
+		
 		references = new EnumMap<PARAMS, String>(PARAMS.class);
 		references.put(PARAMS.INSTANCE, INSTANCE_ARG);
+		//+
+		references.put(PARAMS.FLEET, FLEET_ARG);
+		//-
 		
 		constants = new HashMap<CONSTANTS, Object>();
 		constants.put(CONSTANTS.CONFIG, CONFIG_ALG_C);
