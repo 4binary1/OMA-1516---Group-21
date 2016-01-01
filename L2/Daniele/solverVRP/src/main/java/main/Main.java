@@ -59,7 +59,7 @@ public class Main {
 			// Print solution on a file
 			OROutils.write(solution, (String)options.get(PARAMS.INSTANCE), System.currentTimeMillis()-startTime, (String)options.get(CONSTANTS.OUTPUT));
 			// Print solution on the screen (optional)
-			SolutionPrinter.print(vrp, solution, SolutionPrinter.Print.VERBOSE);
+			//SolutionPrinter.print(vrp, solution, SolutionPrinter.Print.VERBOSE);
 			// Draw solution on the screen (optional)
 			//new GraphStreamViewer(vrp, solution).labelWith(Label.ID).setRenderDelay(10).display();
 		}

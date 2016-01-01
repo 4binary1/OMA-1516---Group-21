@@ -27,6 +27,9 @@ public class BalancerSoftConst implements SoftRouteConstraint {
 	@Override
 	public double getCosts(JobInsertionContext insertionContext) {
 		double value = (insertionContext.getRoute().getActivities().size() - meanValue);
+		if(value < 0)
+			return value;
+		else
 		return value * 10;
 	}
 

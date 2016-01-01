@@ -1,38 +1,54 @@
 <?xml version="1.0" ?>
 
-<algorithm xmlns="http://www.w3schools.com"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3schools.com algorithm_schema.xsd">
+<algorithm xmlns="http://www.w3schools.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3schools.com algorithm_schema.xsd">
 
-	<iterations>1024</iterations>
-	
+	<iterations>2048</iterations>
+
 	<construction>
-		<insertion name="bestInsertion">
-			<considerFixedCosts weight="1.0">true</considerFixedCosts>
+		<insertion name="regretInsertion">
+			<considerFixedCosts weight="1.0">true
+			</considerFixedCosts>
 		</insertion>
 	</construction>
-	
+
 	<strategy>
 		<memory>1</memory>
 		<searchStrategies>
+			<searchStrategy name="greedyRandomBest">
+				<selector name="selectBest" />
+				<acceptor name="greedyAcceptance">
+				</acceptor>
+				<modules>
+					<module name="ruin_and_recreate">
 
-			<searchStrategy name="randomRuinAndRecreate">
-				<selector name="selectBest"/>
-	  			<acceptor name="schrimpfAcceptance">
-					<alpha>0.3</alpha>
-					<initialThreshold>50</initialThreshold>
+						<ruin name="randomRuin">
+							<share>0.4</share>
+						</ruin>
+						<insertion name="bestInsertion" />
+					</module>
+				</modules>
+				<probability>0.3</probability>
+			</searchStrategy>
+
+			<searchStrategy name="schrimpfRadialRegret">
+				<selector name="selectRandomly" />
+				<acceptor name="schrimpfAcceptance">
+					<alpha>0.2</alpha>
+					<initialThreshold>150</initialThreshold>
 				</acceptor>
 				<modules>
 					<module name="ruin_and_recreate">
 						<ruin name="randomRuin">
-							<share>0.5</share>
+							<share>0.2</share>
 						</ruin>
-						<insertion name="regretInsertion"/>
+						<insertion name="regretInsertion" />
 					</module>
 				</modules>
-				<probability>1</probability>
+				<probability>0.7</probability>
 			</searchStrategy>
-		</searchStrategies>		
+		</searchStrategies>
 	</strategy>
-	
+
 
 </algorithm>
