@@ -2,3 +2,4 @@
 Nel file src\main\java\jsprit\core\problem\VehicleRoutingProblem.java
 Alla riga 100
 Perchè FleetSize.INFINITE?
+  -Quella è la configurazione di default che la classe imposta se non viene specificato il tipo di flotta.
