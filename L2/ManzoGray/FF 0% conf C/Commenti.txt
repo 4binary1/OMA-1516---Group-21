@@ -1,0 +1,3 @@
+Istanza pazza nel caso di C109 al 3.34% e RC207 al 5.43 per il caso minimo.
+Nel caso medio C206, C207 e RC204 arrivano a 13%, 13% e 10% rispettivamente.
+La percentuale è stata calcolata sugli ottimi assoluti.
